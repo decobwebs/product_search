@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(120deg, #f6d365, #fda085);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Container */
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #444;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1rem;
+            margin: 0.3rem 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #fda085;
+            box-shadow: 0 0 4px rgba(253, 160, 133, 0.5);
+        }
+
+        button {
+            background: #fda085;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #f6d365;
+        }
+
+        /* Loading Spinner */
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fda085;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        /* Circle Animation */
+        .animated-circle {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 6px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: spin 3s linear infinite;
+            z-index: -1;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            input, select, button {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Spinning Circle for User Engagement -->
+    <div class="animated-circle"></div>
+
+    <div class="container">
+        <h1>Product Search</h1>
+        <form id="searchForm" action="/" method="post" onsubmit="showLoading()">
+            <div class="form-group">
+                <label for="product_name">Product Name:</label>
+                <input type="text" id="product_name" name="product_name" placeholder="Enter product name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="price_value">Price:</label>
+                <input type="number" id="price_value" name="price_value" min="0" step="any" placeholder="Enter price">
+            </div>
+
+            <div class="form-group">
+                <label for="price_filter">Price Filter:</label>
+                <select id="price_filter" name="price_filter">
+                    <option value="">No Filter</option>
+                    <option value="above">Above</option>
+                    <option value="below">Below</option>
+                </select>
+            </div>
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading"></div>
+
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block'; // Show loading spinner
+        }
+    </script>
+</body>
+</html>
