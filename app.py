@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-
+#Full Code
 def scrape_jiji(search_term):
     url = f'https://jiji.ng/search?q={search_term}'
     response = requests.get(url)
