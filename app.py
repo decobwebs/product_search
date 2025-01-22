@@ -1,4 +1,5 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_from_directory
+import os
 import requests
 from bs4 import BeautifulSoup
 
@@ -87,7 +88,6 @@ def scrape_konga(search_term):
             })
 
     return products
-
 
 
 def scrape_payporte(search_term):
@@ -210,6 +210,15 @@ def convert_price(price_str):
         return None
 
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(
+        os.path.join(app.root_path, 'static'),
+        'favicon.ico',
+        mimetype='image/vnd.microsoft.icon'
+    )
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -221,7 +230,6 @@ def index():
             'Jiji': scrape_jiji,
             'Jumia': scrape_jumia,
             'Konga': scrape_konga,
-            'SLOT': scrape_slot,
             'PayPorte': scrape_payporte,
             'Printivo': scrape_printivo,
             'Kara': scrape_kara,
@@ -240,14 +248,11 @@ def index():
             except Exception as e:
                 print(f"Failed to scrape {site_name}: {e}")
 
-        # Convert price strings to integers and filter out invalid prices
         for product in all_products:
             product['price_int'] = convert_price(product['price'])
 
-        # Filter out products with invalid prices
         all_products = [p for p in all_products if p['price_int'] is not None]
 
-        # Apply price filtering
         if price_filter and price_value:
             price_value = int(price_value)
             if price_filter == 'above':
@@ -262,6 +267,7 @@ def index():
         return render_template('results.html', products=sorted_products)
 
     return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
